@@ -1,0 +1,115 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>S-tog afgang</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <style type="text/css">
+
+    body	{
+      background:#000022;
+      color: #fff;
+      font-size: 48px;
+      margin-top:2px;}
+
+
+    A:link	{color:#fff;background:#000022}
+    A:visited{color:#fff;background:#000022}
+    A:active{color:#fff;}
+    A:hover	{color:#fff;}
+
+    .linie	{clear:left;
+
+      display:block;
+      height:48px;
+      line-height:54px;
+      width: 100%;
+      margin-bottom:8px;
+      }
+
+    .logo	{float: left;
+      width: 48px;
+      text-align:center;
+      font-weight:bold;
+      color:#fff;
+      margin-right:4px;}
+
+    .station{float:left}
+
+    .tid	{float:right}
+
+    .A	{background-color:#1ab5f1}
+    .B	{background-color:#4dbd38}
+    .Bx	{background-color:#99d761}
+    .C	{background-color:#f68712}
+    .E	{background-color:#7c6dbe}
+    .F	{background-color:#fabc09}
+    .H	{background-color:#f03c1f}
+
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    
+    <script type="text/javascript">
+
+    (function($) {
+    jQuery.fn.themeRow = function(l) {
+
+      if (l['head'] !== undefined) {
+        var $row = l['head'];
+      }
+      else {
+        var $row = '';
+        $.each({line: "logo " + l['line'], destination: "station", departure: 'tid' }, function(k, v) {
+          $row += '<div class="' + v + '">' + l[k] + '</div>';
+        });
+      }
+      
+      $('#list').append('<div class="linie">' + $row + '</div>');
+      };
+      jQuery.fn.trainInfo = function() {
+        var uic = window.location.hash.split('#')[1];
+        $.post('stogdata.php', {'uic' : uic}, function(data){
+          $.each( data, function(i, l){  
+            $(this).themeRow(l);
+          });
+        }, 'json');
+
+      };
+    })(jQuery);
+
+    $('document').ready(function(){
+      // Set a timeout...
+      setTimeout(function(){
+        // Hide the address bar!
+        window.scrollTo(0, 1);
+      }, 0);
+      
+      setInterval(function() {
+      $('#list').empty();
+          $().trainInfo();
+      }, 5000);
+      
+      navigator.geolocation.getCurrentPosition( function(loc){
+      
+      var lat = loc.coords.latitude;
+      var lon = loc.coords.longitude;
+      $.post('distance.php', {'lat' : lat, 'lon' : lon}, function(data){
+//        $('#station').text(data[0]['name'])
+        window.location.hash = data[0]['uic'];
+        }, 'json');
+      });
+
+      $().trainInfo();    
+    });
+      
+    </script>
+  </head>
+  <body>
+    <div id="list"></div>
+  </body>
+</html>

@@ -60,26 +60,29 @@ and open the template in the editor.
     <script type="text/javascript">
 
     (function($) {
-    jQuery.fn.themeRow = function(l) {
+      jQuery.fn.themeLines = function(data) {
+        var $return = '';
+        $.each(data, function(i, l){
+          if (l['head'] !== undefined) {
+            var $row = l['head'];
+          }
+          else {
+            var $row = '';
+            $.each({line: "logo " + l['line'], destination: "station", departure: 'tid' }, function(k, v) {
+              $row += '<div class="' + v + '">' + l[k] + '</div>';
+            });
+          }
 
-      if (l['head'] !== undefined) {
-        var $row = l['head'];
-      }
-      else {
-        var $row = '';
-        $.each({line: "logo " + l['line'], destination: "station", departure: 'tid' }, function(k, v) {
-          $row += '<div class="' + v + '">' + l[k] + '</div>';
+          $return += '<div class="linie">' + $row + '</div>';
         });
-      }
-      
-      $('#list').append('<div class="linie">' + $row + '</div>');
+
+        $('#list').html($return);
       };
+    
       jQuery.fn.trainInfo = function() {
         var uic = window.location.hash.split('#')[1];
         $.post('stogdata.php', {'uic' : uic}, function(data){
-          $.each( data, function(i, l){  
-            $(this).themeRow(l);
-          });
+          $(this).themeLines(data);
         }, 'json');
 
       };
@@ -93,8 +96,7 @@ and open the template in the editor.
       }, 0);
       
       setInterval(function() {
-      $('#list').empty();
-          $().trainInfo();
+        $().trainInfo();
       }, 5000);
       
       navigator.geolocation.getCurrentPosition( function(loc){

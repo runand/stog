@@ -2,10 +2,10 @@
 $uic = $_POST['uic'];
 
 $url = 'http://wap.dsb.dk/servlet/WapServlet?stationsid='.$uic;
-
+$url = 'test.txt';
 $file = file_get_contents($url);
 
-
+//file_put_contents('test.txt', $file);
 $seperated = str_replace('<br/>', ';', $file);
 $stripped = strip_tags($seperated);
 $list = array_filter(explode(';', $stripped));

@@ -20,7 +20,7 @@ foreach ($list as $entry){
 	if($count != count($list)){
 		if (!preg_match('/\d|½/', $entry)){
       if(strpos($entry, 'Tilbage') === FALSE) {
-        $output[] = array('head' => $entry);
+        $output[] = array('head' => utf8_encode($entry));
     
       }
 		

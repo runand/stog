@@ -18,7 +18,7 @@ foreach ($list as $entry){
 	$count++;
 
 	if($count != count($list)){
-		if (!preg_match('/\d|½/', $entry)){
+		if (!preg_match('/[\d\x{00BD}]+/', $entry)){
       if(strpos($entry, 'Tilbage') === FALSE) {
         $output[] = array('head' => utf8_encode($entry));
     
@@ -26,12 +26,12 @@ foreach ($list as $entry){
 		
 		}
 		else {
-			if (preg_match('/^([\w]+) (.*) ([\d]+|\.)$/', $entry, $matches)) {
+			if (preg_match('/^([\w]+) (.*) ([\d\x{00BD}]+)$/', $entry, $matches)) {
         $station_info = array_splice($matches, 1);
         $output[] = array(
           'line' => $station_info[0],
           'destination' => utf8_encode($station_info[1]),
-          'departure' => $station_info[2],
+          'departure' => utf8_encode($station_info[2]),
         );
 			}
 		}

@@ -28,7 +28,7 @@ foreach ($list as $entry){
 			if (preg_match('/^([\w]+) (.*) ([\d\x{00BD}]+)$/', $entry, $matches)) {
         $station_info = array_splice($matches, 1);
         $output[] = array(
-          'line' => $station_info[0],
+          'line' => ucfirst(strtolower($station_info[0])),
           'destination' => utf8_encode($station_info[1]),
           'departure' => utf8_encode($station_info[2]),
         );

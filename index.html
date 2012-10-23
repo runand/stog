@@ -86,7 +86,7 @@ and open the template in the editor.
       jQuery.fn.trainInfo = function() {
         var uic = window.location.hash.split('#')[1];
         var ts = Math.round((new Date()).getTime() / 1000);
-        $.post('stogdata.php', {'uic' : uic, 'ts' : ts}, function(data){
+        $.post('stogdata.php\\?ts=' + ts, {'uic' : uic}, function(data){
           $(this).themeLines(data);
         }, 'json');
 

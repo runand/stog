@@ -3,7 +3,7 @@ To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html>
+<html onclick="">
   <head>
     <title>S-tog afgang</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
@@ -25,8 +25,14 @@ and open the template in the editor.
     A:visited{color:#fff;background:#000022}
     A:active{color:#fff;}
     A:hover	{color:#fff;}
-
-    .linie	{clear:left;
+    
+    #info {
+      background-color: #e0e0e0;
+      color: #000;
+      text-align: center;
+      font-size: 14px;
+    }
+    .linie, .stationrow	{clear:left;
 
       display:block;
       height:60px;
@@ -41,10 +47,20 @@ and open the template in the editor.
       font-weight:bold;
       color:#fff;
       margin-right:4px;}
-
+    #stations {
+      width: 100%;
+      position: absolute;
+      display: none;
+      margin-bottom: 20px;
+      background: #000022;
+    }
     .station{float:left}
 
-    .tid	{float:right}
+    .tid, .distance	{float:right}
+    .distance {
+      text-align: left;
+      width: 170px;
+    }
 
     .A	{background-color:#1ab5f1}
     .B	{background-color:#4dbd38;}
@@ -83,6 +99,33 @@ and open the template in the editor.
         $('#list').html($return);
       };
     
+      jQuery.fn.themeStationlist = function(data) {
+        var $return = '';
+        $.each(data, function(i, l){
+          var $row = '';
+          l.distance = Math.floor(l.distance)
+          if (l.distance < 1000) {
+            l.distance = l.distance + '  m'
+          }
+          else {
+            l.distance = (l.distance/1000).toFixed(1) + ' km'
+          }
+          $.each({name: "station", distance: 'distance' }, function(k, v) {
+            
+            $row += '<div class="' + v + '">' + l[k] + '</div>';
+          });
+          $return += '<div class="stationrow" data-uic=' + l.uic + '>' + $row + '</div>';
+        });
+        
+        $('#stations').html($return);
+        
+        $('.stationrow').on({'click' : function(){
+          window.location.hash = $(this).data('uic')
+          $('#list').html('');
+          $().trainInfo();
+        }});
+      };
+    
       jQuery.fn.trainInfo = function() {
         var uic = window.location.hash.split('#')[1];
         var ts = Math.round((new Date()).getTime() / 1000);
@@ -109,17 +152,23 @@ and open the template in the editor.
       var lat = loc.coords.latitude;
       var lon = loc.coords.longitude;
       $.post('distance.php', {'lat' : lat, 'lon' : lon}, function(data){
-//        $('#station').text(data[0]['name'])
         window.location.hash = data[0]['uic'];
+        $().themeStationlist(data.slice(0, 5))
         }, 'json');
       });
 
-      $().trainInfo();    
+      $().trainInfo();
+      
+      $(document).on('click', function(){          
+        $('#stations').toggle();
+      })
     });
       
     </script>
   </head>
   <body>
+    <div id="info">Klik for stationer i nærheden</div>
+    <div id="stations"></div>
     <div id="list"></div>
   </body>
 </html>

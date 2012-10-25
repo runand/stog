@@ -20,7 +20,7 @@ foreach($stationlist as $uic => $stationinfo) {
   $station->setUTM($utm_parts[0], $utm_parts[1], '32N');
   $station->convertTMtoLL();
  
-  $stations[] = array('uic' => $uic - 8600000, 'name' => utf8_decode($stationinfo['station']), 'distance' => $station->distanceFrom($lon1, $lat1));
+  $stations[] = array('uic' => $uic - 8600000, 'name' => $stationinfo['station'], 'distance' => $station->distanceFrom($lon1, $lat1));
 }
 
 usort($stations, 'distancesort');

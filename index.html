@@ -8,6 +8,7 @@ and open the template in the editor.
     <title>S-tog afgang</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width; initial-scale=0.35; user-scalable=no;">
     
     <style type="text/css">
 
@@ -26,12 +27,14 @@ and open the template in the editor.
     A:active{color:#fff;}
     A:hover	{color:#fff;}
     
-    #info {
+    #button {
       background-color: #e0e0e0;
       color: #000;
       text-align: center;
       font-size: 14px;
       margin-bottom: 10px;
+      height: 32px;
+      padding-top: 10px;
     }
     
     .linie, .stationrow	{
@@ -170,15 +173,15 @@ and open the template in the editor.
 
       $().trainInfo();
       
-      $(document).on('click', function(){          
-        $('#stations, #info').toggle();
+      $('#button, #stations').on('click', function(){          
+        $('#button, #stations').toggle();
       })
     });
       
     </script>
   </head>
   <body>
-    <div id="info">Klik for stationer i nærheden</div>
+    <div id="button">Klik for stationer i nærheden</div>
     <div id="stations"></div>
     <div id="list"></div>
   </body>

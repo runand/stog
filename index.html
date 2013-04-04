@@ -167,7 +167,7 @@ and open the template in the editor.
       var lon = loc.coords.longitude;
       $.post('distance.php', {'lat' : lat, 'lon' : lon}, function(data){
         window.location.hash = data[0]['uic'];
-        $().themeStationlist(data.slice(0, 5))
+        $().themeStationlist(data.slice(0, 15))
         }, 'json');
       });
 

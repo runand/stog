@@ -34,7 +34,7 @@ $direction_output = array();
 
 foreach ($data as $departure) {
   $direction_output[$departure->Direction][] = array(
-    'line' => $departure->Line,
+    'line' => ucfirst(strtolower($departure->Line)),
     'destination' => $departure->DestinationName,
     'departure' => $departure->MinutesToDeparture,
   );

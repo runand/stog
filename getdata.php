@@ -32,12 +32,27 @@ $data = reset($data);
 
 $direction_output = array();
 
+$now = time();
+
 foreach ($data as $departure) {
-  $direction_output[$departure->Direction][] = array(
-    'line' => ucfirst(strtolower($departure->Line)),
-    'destination' => $departure->DestinationName,
-    'departure' => $departure->MinutesToDeparture,
-  );
+  preg_match('/[0-9]+/', $departure->Generated, $matches);
+  $diff = ($now - ($matches[0]/1000 - 3600));
+  $diffmin = $diff / 60;
+
+  if ($diff > 30) {
+    $minutestodepature = floor($departure->MinutesToDeparture - $diffmin);
+  }
+  else {
+    $minutestodepature = $departure->MinutesToDeparture;
+  }
+
+  if ($minutestodepature > 0) {
+    $direction_output[$departure->Direction][] = array(
+      'line' => ucfirst(strtolower($departure->Line)),
+      'destination' => $departure->DestinationName,
+      'departure' => $minutestodepature,
+    );
+  }
 }
 
 $south = $direction_output['Syd'];

@@ -16,7 +16,7 @@ $stationlist = array(
   '8600634' => array('station' => 'Dybbølsbro st', 'utm' => '723864;6174522'),
   '8600780' => array('station' => 'Dyssegård st', 'utm' => '721985;6181986'),
   '8600688' => array('station' => 'Emdrup st', 'utm' => '722362;6180696'),
-  '8600625' => array('station' => 'Enghave st', 'utm' => '722613;6174304'),
+  '8600625' => array('station' => 'Carlsberg st', 'utm' => '722613;6174304'),
   '8600696' => array('station' => 'Farum st', 'utm' => '711375;6190309'),
   '8600736' => array('station' => 'Flintholm st', 'utm' => '719923;6176619'),
   '8600714' => array('station' => 'Frederikssund st', 'utm' => '691973;6192057'),
